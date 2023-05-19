@@ -7,7 +7,7 @@ use app\model\Department;
 use app\model\Doctor;
 
 class Dashboard extends BaseController
-{
+{           
     public function index() 
     {
         $this->prepare();
@@ -77,6 +77,17 @@ class Dashboard extends BaseController
         $m = model($type);
         $m->allowField(true)->isUpdate(true)->save($_POST);
         return $this->success('修改成功',"/index.php/dashboard/list/type/$type");
+    }
+
+    protected function prepare() {
+        parent::prepare();
+        $sidebar = array(
+            "首页" => url('dashboard/index'),
+            "医院管理" => "",
+            "科室管理" => url('dashboard/list','type=department'),
+            "医生管理" => url('dashboard/list','type=doctor'),
+        );
+        $this->assign("sidebar",$sidebar);
     }
 
 }
