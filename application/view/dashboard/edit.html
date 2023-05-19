@@ -1,0 +1,60 @@
+{include file="../application/view/common/header.html" /}
+<!-- =============================================== -->
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            {$title}
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">详细信息</h3>
+                    </div><!-- /.box-header -->
+                    <!-- form start -->
+                    <form role="form" method="post" action='{:url("dashboard/do". request()->action(),"type=$type")}'>
+                        <div class="box-body">
+
+                            {foreach $textFields as $field => $name}
+                            <div id="input_{$field}" class="form-group">
+                                <label for="cate_{$field}">{$name}</label>
+                                <input class="form-control" name="{$field}" value='{if isset($data)}{$data["$field"]}{/if}' >
+                            </div>
+                            {/foreach}
+                            {foreach $optFields as $field => $name}
+                            <div class="form-group">
+                                <label for="cate_{$field}">{$name}</label>
+                                <select class="form-control" name="{$field}">
+                                    {foreach $opts[$field] as $row}
+                                    <option value="{$row['id']}" {if isset($data)}{if $data["$field"] eq $row["id"]}selected{/if}{/if}>{$row['name']}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                            {/foreach}
+
+                        </div><!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button type="submit" name="action" value="add" class="btn btn-primary">保存</button>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.box -->
+        </div>   <!-- /.row -->
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+{if request()->action() eq "edit"}
+<script>
+    document.getElementById("input_id").style.display = "none";
+</script>
+{/if}
+{include file="../application/view/common/footer.html" /}
