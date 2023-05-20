@@ -11,7 +11,7 @@ class Department extends BaseLogic
     protected $textFields = array("id" => "编号" , "name" => "科室名称");
     protected $optFields = [];
 
-    public function prepareFields()
+    public function prepareRows()
     {
         $m = model("department");
         $rows = $m->all();

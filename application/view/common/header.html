@@ -51,16 +51,16 @@
                             <li class="user-header">
                                 <img src="" class="img-circle" alt="User Image" />
                                 <p>
-                                    
-                                    <small>管理员</small>
+                                    {$account}
+                                    <small>角色：{$role}</small>
                                 </p>
                             </li>
                             <li class="user-footer">
-                                <div class="pull-left">
+                                <!--<div class="pull-left">
                                     <a href="my.php" class="btn btn-default btn-flat">个人信息</a>
-                                </div>
+                                </div>-->
                                 <div class="pull-right">
-                                    <a href="logout.php" class="btn btn-default btn-flat">退出</a>
+                                    <a href="{:url('User/logout')}" class="btn btn-default btn-flat">退出</a>
                                 </div>
                             </li>
                         </ul>

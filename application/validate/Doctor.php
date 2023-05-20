@@ -9,7 +9,7 @@ class Doctor extends Validate
         'id'  =>  'require|number|length:11',
         'name' => 'require|chsAlpha|length:2,16',
         'deptId' =>  'require|number',
-        'phone' => 'require|number|length:11',
+        'phone' => 'require|mobile',
     ];
 }
 ?>

@@ -12,17 +12,20 @@ abstract class BaseLogic extends Model
     protected $optFields;
     protected $opts;
 
-    abstract public function prepareFields();
     abstract public function prepareOpts();
     abstract public function prepareData($id);
+    abstract public function prepareRows();
 
     public function loadFields()
     {
-        $rows = $this->prepareFields();
-        View::share('rows',$rows);
         View::share('fields',$this->fields);
         View::share('textFields',$this->textFields);
         View::share('optFields',$this->optFields);
+    }
+
+    public function loadRows()
+    {
+        View::share('rows',$this->prepareRows());
     }
 
     public function loadOpts()

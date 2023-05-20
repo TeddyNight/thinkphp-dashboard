@@ -10,7 +10,7 @@ class Department extends Model
         'id'    =>  'integer'
     ];
 
-    public function doctors()
+    public function doctor()
     {
         return $this->hasMany('Doctor','deptId');
     }

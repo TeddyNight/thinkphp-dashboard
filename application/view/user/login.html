@@ -25,7 +25,7 @@
         <a href="#"><b>{$hospital['name']}</b></a>
     </div><!-- /.login-logo -->
     <div class="login-box-body">
-        <p class="login-box-msg">登录到管理面板</p>
+        <p class="login-box-msg">{$role}登录</p>
 
             <form>
             <div class="form-group has-feedback">
@@ -87,7 +87,7 @@
         function login(){
             $.ajax({
                 type:"POST",
-                url:"{:url("$role/doLogin")}",
+                url:"{:url("/user/doLogin/role/$role")}",
                 dataType:"json",
                 data:{
                     account: $("#account").val(),
