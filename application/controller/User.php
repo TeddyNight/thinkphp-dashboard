@@ -7,7 +7,7 @@ use app\common\Auth;
 class User extends BaseController
 {
 
-    public function login($role) {
+    public function login($role = "admin") {
         $this->prepare();
         $this->assign('role',$role);
         return $this->fetch('login');
@@ -36,6 +36,11 @@ class User extends BaseController
             Auth::login($account,$role);
         }
         return json($ret);
+    }
+
+    public function logout() {
+        Auth::logout();
+        return $this->success("注销成功");
     }
 
 }

@@ -1,25 +1,9 @@
-{include file="../application/view/common/header.html" /}
-
-   <!-- =============================================== -->
-
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                {$title}
-                <small>{$title}</small>
-            </h1>
-        </section>
-
-        {block name="main"}
+{extend name="dashboard/list/common" /}
+{block name="main"}
         <!-- Main content -->
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
-                    {if $creatable}
-                    <p> <a class="btn btn-success btn-sm" href='{:url("dashboard/create","type=$type")}'>添加</a> </p>
-                    {/if}
                     <div class="box">
                         <div class="box-body table-responsive no-padding">
                             {block name="table"}
@@ -28,21 +12,16 @@
                                     {foreach $fields as $field} 
                                     <th>{$field}</th>
                                     {/foreach}
-                                    {if $updatable}
                                     <th>操作</th>
-                                    {/if}
                                 </tr>
                                 {foreach $rows as $row}
                                 <tr>
                                 <?php foreach(array_keys($fields) as $key) { ?>
                                 <td>{$row["$key"]}</td>
                                 <?php } ?>
-                                {if $updatable}
                                 <td>
-                                    <a class="btn btn-info btn-sm" href='{:url("dashboard/update","type=$type&id=" . $row["id"])}'>编辑</a>
-                                    <a class="btn btn-danger btn-sm" href='{:url("dashboard/delete","type=$type&id=" . $row["id"])}'>删除</a>
+                                    <a class="btn btn-info btn-sm" href='{:url("dashboard/detail","type=$type&id=" . $row["id"])}'>查看详情</a>
                                 </td>
-                                {/if}
                                 </tr>
                                 {/foreach}
                             </table>
@@ -53,6 +32,4 @@
             </div>
 
         </section><!-- /.content -->
-        {/block}
-    </div><!-- /.content-wrapper -->
-{include file="../application/view/common/footer.html" /}
+{/block}

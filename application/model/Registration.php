@@ -19,4 +19,10 @@ class Registration extends Model
     {
         return $this->belongsTo('doctor');
     }
+
+    public function getPatientAttr($value,$data)
+    {
+        $patient = Patient::get($data["patId"]);
+        return $patient["name"];
+    }
 }

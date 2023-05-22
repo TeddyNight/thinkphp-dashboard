@@ -22,9 +22,9 @@ class Dashboard extends BaseController
             return $this->error("请先登录","/index.php/user/login");
         }
 
-        $permission = ["doctor" => ["list" => ["arrangement","patient"], "update" => [], "new" => [], "delete" => []],
-                "admin" => ["list" => ["all"], "create" => ["all"], "update" => ["all"], "delete" => ["all"]],
-                "patient" => ["list" => ["registration"], "create" => ["registration"], "update" => [], "delete" => []]
+        $permission = ["doctor" => ["list" => ["arrangement","waitpatient","medicine","prescription"], "update" => [], "create" => ["prescription"], "delete" => [], "detail" => ["prescription"]],
+                "admin" => ["list" => ["all"], "create" => ["all"], "update" => ["all"], "delete" => ["all"], "detail" => []],
+                "patient" => ["list" => ["registration,prescription"], "create" => ["registration"], "update" => [], "delete" => [], "detail" => ["prescription"]]
             ];
         $type = Request::param('type');
         $role = Auth::getRole();
@@ -52,11 +52,18 @@ class Dashboard extends BaseController
 
     public function list($type) 
     {
-        $title = "";
+        if (Request::isAjax()) {
+            $m = model($type, "logic");
+            $rows = $m->prepareRows()->toArray();
+            $results = array_map(function ($row) {
+                return array("id" => $row["id"], "text" => $row["name"]);
+            },$rows);
+            $ret = array("results" => $results);
+            return json($ret);
+        }
         $m = model($type,"logic");
         $m->loadList();
 
-        $this->assign("title",$m->name);
         $this->assign("type",$type);
 
         return $this->fetch("dashboard/list/$type");
@@ -69,15 +76,15 @@ class Dashboard extends BaseController
             if(true !== $vaildator){
                 return $this->error($vaildator);
             }
-            $m = model($type);
-            $m->allowField(true)->save($_POST);
+            $m = model($type,"logic");
+            $m->doSave();
             return $this->success('添加成功',"/index.php/dashboard/list/type/$type");
         }
 
         $m = model($type,"logic");
         $m->loadEdit();
 
-        $this->assign("title","添加$m->name");
+        $this->assign("title","添加$m->alias");
         $this->assign("type",$type);
         return $this->fetch("dashboard/edit/$type");
     }
@@ -89,8 +96,8 @@ class Dashboard extends BaseController
             if(true !== $vaildator){
                 return $this->error($vaildator);
             }
-            $m = model($type);
-            $m->allowField(true)->isUpdate(true)->save($_POST);
+            $m = model($type,"logic");
+            $m->doUpdate();
             return $this->success('修改成功',"/index.php/dashboard/list/type/$type");
         }
 
@@ -98,7 +105,7 @@ class Dashboard extends BaseController
         $m->loadEdit();
         $m->loadData($id);
 
-        $this->assign("title","修改$m->name");
+        $this->assign("title","修改$m->alias");
         $this->assign("type",$type);
         return $this->fetch("dashboard/edit/$type");
     }
@@ -121,13 +128,15 @@ class Dashboard extends BaseController
                 "医生管理" => url('dashboard/list','type=doctor'),
                 "排班管理" => url('dashboard/list','type=arrangement'),
                 "病人管理" => url('dashboard/list','type=patient'),
+                "药品管理" => url('dashboard/list','type=medicine'),
             );
         }
         else if ($role == "doctor") {
             $sidebar = array(
                 "首页" => url('dashboard/index'),
                 "排班情况" => url('dashboard/list','type=arrangement'),
-                "待接诊病人" => url('dashboard/list','type=patient')
+                "待接诊病人" => url('dashboard/list','type=waitpatient'),
+                "已开处方列表" => url('dashboard/list','type=prescription')
             );
         }
         else if ($role == "patient") {

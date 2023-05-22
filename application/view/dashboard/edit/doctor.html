@@ -1,1 +1,8 @@
 {extend name="dashboard/edit/common" /}
+{block name="footer"}
+{if request()->action() eq "update"}
+<script>
+    document.getElementById("input_id").style.display = "none";
+</script>
+{/if}
+{/block}

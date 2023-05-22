@@ -7,7 +7,7 @@ use app\common\UserLogic;
 
 class Doctor extends BaseLogic implements UserLogic
 {
-    public $name = "医生";
+    public $alias = "医生";
     protected $fields = array("id" => "工号", "name" => "姓名", "phone" => "电话", "department" => "部门");
     protected $textFields = array("id" => "工号", "name" => "姓名", "phone" => "电话");
     protected $optFields = array("sex" => "性别" , "title" => "职称", "deptId" => "所属科室");

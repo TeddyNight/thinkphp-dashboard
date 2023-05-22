@@ -6,7 +6,7 @@ use think\facade\View;
 
 abstract class BaseLogic extends Model
 {
-    public $name;
+    public $alias;
     protected $fields;
     protected $textFields;
     protected $optFields;
@@ -44,6 +44,7 @@ abstract class BaseLogic extends Model
     }
 
     public function loadList() {
+        View::share('title',$this->alias);
         $this->loadFields();
         $this->loadRows();
     }
@@ -51,5 +52,13 @@ abstract class BaseLogic extends Model
     public function loadEdit() {
         $this->loadFields();
         $this->loadOpts();
+    }
+
+    public function doSave() {
+        $this->allowField(true)->save($_POST);
+    }
+
+    public function doUpdate() {
+        $this->allowField(true)->isUpdate(true)->save($_POST);
     }
 }

@@ -8,7 +8,7 @@ use think\facade\View;
 
 class Registration extends BaseLogic
 {
-    public $name = "挂号";
+    public $alias = "挂号";
     protected $fields = array("id" => "编号", "patient" => "病人名字", "room" => "诊室", "doctor" => "医生", "time" => "时间");
     protected $textFields = [];
     protected $optFields = [];
@@ -16,27 +16,18 @@ class Registration extends BaseLogic
     public function prepareRows()
     {
         $rows = [];
-        $role = Auth::getRole();
-        if ($role == "admin") {
-            $m = model("registration");
-            $rows = $m->with("patient,arrangement")
-                ->all()
-                ->bindAttr('arrangement',["doctor" => "doctor"])
-                ->bindAttr('arrangement',["room" => "room"])
-                ->bindAttr('arrangement',["time" => "time"])
-                ->bindAttr('patient',["patient" => "name"]);
-        }
-        else if ($role == "doctor") {
-            $m = model("arrangement");
-            $rows = $m->with("doctor")->where('drId', Auth::getAccount())->select()->bindAttr('doctor',["doctor" => "name"]);   
-        }
+        $m = model("registration");
+        $rows = $m->with("arrangement")
+            ->all()
+            ->bindAttr('arrangement',["doctor" => "doctor"])
+            ->bindAttr('arrangement',["room" => "room"])
+            ->bindAttr('arrangement',["time" => "time"]);
         return $rows;
     }
 
     public function prepareOpts() {
 
     }
-
 
     public function loadEdit()
     {
@@ -48,7 +39,7 @@ class Registration extends BaseLogic
 
     public function prepareData($id)
     {
-        $m = model("arrangement");
+        $m = model("registration");
         return $m->where('id',$id)->find();
     }
 

@@ -39,4 +39,10 @@ class Auth {
         Session::set('account',$account);
         Session::set('role',$role);
     }
+
+    public static function logout()
+    {
+        Session::delete('account');
+        Session::delete('role');
+    }
 }

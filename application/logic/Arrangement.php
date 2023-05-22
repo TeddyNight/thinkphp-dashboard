@@ -7,7 +7,7 @@ use app\common\Auth;
 
 class Arrangement extends BaseLogic
 {
-    public $name = "排班";
+    public $alias = "排班";
     protected $fields = array("id" => "编号", "type" => "类型", "room" => "诊室或病房", "doctor" => "医生", "startTime" => "开始时间", "endTime" => "结束时间");
     protected $textFields = array("id" => "编号", "room" => "诊室或病房", "startTime" => "开始时间", "endTime" => "结束时间");
     protected $optFields = array("type" => "类型", "drId" => "医生");

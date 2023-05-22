@@ -6,6 +6,7 @@
         {if request()->action() eq "update"}
         <div id="input_id" class="form-group">
             <label for="cate_id">编号</label>
+            <input class="form-control" name="id" value='{if isset($data)}{$data["id"]}{/if}' >
         </div>
         {/if}
 
@@ -42,7 +43,7 @@
                 {foreach $drs as $dr}
                 <optgroup label="{$dr['id']}">
                 {foreach $dr['arrangement'] as $arr}
-                <option value="{$arr->id}">{$arr->startTime} - {$arr->endTime}</option>
+                <option value="{$arr->id}" {if isset($data)}{if $arr["id"] eq $data["arrId"]}selected{/if}{/if}>{$arr->startTime} - {$arr->endTime}</option>
                 {/foreach}
                 </optgroup>
                 {/foreach}
@@ -57,11 +58,9 @@
 </form>
 {/block}
 {block name="footer"}
-{if request()->action() eq "update"}
 <script>
     document.getElementById("input_id").style.display = "none";
 </script>
-{/if}
 <script>
     // https://gist.github.com/robcowie/2267793
     $.fn.filterGroups = function( options ) {

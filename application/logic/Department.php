@@ -6,7 +6,7 @@ use app\common\BaseLogic;
 
 class Department extends BaseLogic
 {
-    public $name = "科室";
+    public $alias = "科室";
     protected $fields = array("id" => "编号", "name" => "科室名称");
     protected $textFields = array("id" => "编号" , "name" => "科室名称");
     protected $optFields = [];
