@@ -22,8 +22,9 @@ class Dashboard extends BaseController
             return $this->error("请先登录","/index.php/user/login");
         }
 
-        $permission = ["doctor" => ["list" => ["arrangement"], "edit" => []],
-                "admin" => ["list" => ["all"], "edit" => ["all"]]
+        $permission = ["doctor" => ["list" => ["arrangement","patient"], "update" => [], "new" => [], "delete" => []],
+                "admin" => ["list" => ["all"], "create" => ["all"], "update" => ["all"], "delete" => ["all"]],
+                "patient" => ["list" => ["registration"], "create" => ["registration"], "update" => [], "delete" => []]
             ];
         $type = Request::param('type');
         $role = Auth::getRole();
@@ -33,20 +34,14 @@ class Dashboard extends BaseController
         }
         else if (isset($permission[$role][$action]) && 
             (in_array("all", $permission[$role][$action]) || in_array($type, $permission[$role][$action]))) {
-                if (isset($permission[$role]["edit"]) && 
-                (in_array("all", $permission[$role]["edit"]) || in_array($type, $permission[$role]["edit"]))) {
-                    $this->assign("editable",true);
+                if ($action == "list") {
+                    $this->assign("creatable",in_array("all", $permission[$role]["create"]) || in_array($type, $permission[$role]["create"]));
+                    $this->assign("deletable",in_array("all", $permission[$role]["delete"]) || in_array($type, $permission[$role]["delete"]));
+                    $this->assign("updatable",in_array("all", $permission[$role]["update"]) || in_array($type, $permission[$role]["update"]));
                 }
-                else {
-                    $this->assign("editable",false);
-                }
-        }
-        else if (isset($permission[$role]["edit"]) && 
-            (in_array("all", $permission[$role]["edit"]) || in_array($type, $permission[$role]["edit"]))) {
-            
         }
         else {
-            return $this->error("没有权限访问","/index.php/dashboard/index");
+            return $this->error("没有权限访问$action","/index.php/dashboard/index");
         }
     }
 
@@ -59,36 +54,53 @@ class Dashboard extends BaseController
     {
         $title = "";
         $m = model($type,"logic");
-        $m->loadFields();
-        $m->loadRows();
+        $m->loadList();
 
         $this->assign("title",$m->name);
         $this->assign("type",$type);
 
-        return $this->fetch("list");
+        return $this->fetch("dashboard/list/$type");
     }
 
-    public function new($type)
+    public function create($type)
     {
+        if (Request::instance()->isPost()) {
+            $vaildator = $this->validate($_POST,$type);
+            if(true !== $vaildator){
+                return $this->error($vaildator);
+            }
+            $m = model($type);
+            $m->allowField(true)->save($_POST);
+            return $this->success('添加成功',"/index.php/dashboard/list/type/$type");
+        }
+
         $m = model($type,"logic");
-        $m->loadFields();
-        $m->loadOpts();
+        $m->loadEdit();
 
         $this->assign("title","添加$m->name");
         $this->assign("type",$type);
-        return $this->fetch("edit");
+        return $this->fetch("dashboard/edit/$type");
     }
 
-    public function edit($type,$id)
+    public function update($type,$id)
     {
+        if (Request::instance()->isPost()) {
+            $vaildator = $this->validate($_POST,$type);
+            if(true !== $vaildator){
+                return $this->error($vaildator);
+            }
+            $m = model($type);
+            $m->allowField(true)->isUpdate(true)->save($_POST);
+            return $this->success('修改成功',"/index.php/dashboard/list/type/$type");
+        }
+
         $m = model($type,"logic");
-        $m->loadFields();
-        $m->loadOpts();
+        $m->loadEdit();
         $m->loadData($id);
 
         $this->assign("title","修改$m->name");
         $this->assign("type",$type);
-        return $this->fetch("edit");
+        return $this->fetch("dashboard/edit/$type");
     }
 
     public function delete($type,$id)
@@ -96,26 +108,6 @@ class Dashboard extends BaseController
         $m = model($type);
         $m->destroy($id);
         return $this->success('删除成功',"/index.php/dashboard/list/type/$type");
-    }
-
-    public function doNew($type) {
-        $vaildator = $this->validate($_POST,$type);
-        if(true !== $vaildator){
-            return $this->error($vaildator);
-        }
-        $m = model($type);
-        $m->allowField(true)->save($_POST);
-        return $this->success('添加成功',"/index.php/dashboard/list/type/$type");
-    }
-
-    public function doEdit($type) {
-        $vaildator = $this->validate($_POST,$type);
-        if(true !== $vaildator){
-            return $this->error($vaildator);
-        }
-        $m = model($type);
-        $m->allowField(true)->isUpdate(true)->save($_POST);
-        return $this->success('修改成功',"/index.php/dashboard/list/type/$type");
     }
 
     protected function prepare() {
@@ -128,12 +120,20 @@ class Dashboard extends BaseController
                 "科室管理" => url('dashboard/list','type=department'),
                 "医生管理" => url('dashboard/list','type=doctor'),
                 "排班管理" => url('dashboard/list','type=arrangement'),
+                "病人管理" => url('dashboard/list','type=patient'),
             );
         }
         else if ($role == "doctor") {
             $sidebar = array(
                 "首页" => url('dashboard/index'),
                 "排班情况" => url('dashboard/list','type=arrangement'),
+                "待接诊病人" => url('dashboard/list','type=patient')
+            );
+        }
+        else if ($role == "patient") {
+            $sidebar = array(
+                "首页" => url('dashboard/index'),
+                "挂号" => url('dashboard/list','type=registration'),
             );
         }
         $this->assign("role",$role);

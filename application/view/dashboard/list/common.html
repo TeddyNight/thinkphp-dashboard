@@ -16,8 +16,8 @@
         <section class="content">
             <div class="row">
                 <div class="col-xs-12">
-                    {if $editable}
-                    <p> <a class="btn btn-success btn-sm" href='{:url("dashboard/new","type=$type")}'>添加</a> </p>
+                    {if $creatable}
+                    <p> <a class="btn btn-success btn-sm" href='{:url("dashboard/create","type=$type")}'>添加</a> </p>
                     {/if}
                     <div class="box">
                         <div class="box-body table-responsive no-padding">
@@ -26,7 +26,7 @@
                                     {foreach $fields as $field} 
                                     <th>{$field}</th>
                                     {/foreach}
-                                    {if $editable}
+                                    {if $updatable}
                                     <th>操作</th>
                                     {/if}
                                 </tr>
@@ -35,9 +35,9 @@
                                 <?php foreach(array_keys($fields) as $key) { ?>
                                 <td>{$row["$key"]}</td>
                                 <?php } ?>
-                                {if $editable}
+                                {if $updatable}
                                 <td>
-                                    <a class="btn btn-info btn-sm" href='{:url("dashboard/edit","type=$type&id=" . $row["id"])}'>编辑</a>
+                                    <a class="btn btn-info btn-sm" href='{:url("dashboard/update","type=$type&id=" . $row["id"])}'>编辑</a>
                                     <a class="btn btn-danger btn-sm" href='{:url("dashboard/delete","type=$type&id=" . $row["id"])}'>删除</a>
                                 </td>
                                 {/if}

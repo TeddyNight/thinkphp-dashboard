@@ -12,7 +12,12 @@ class Doctor extends Model
 
     public function arrangement()
     {
-        return  $this->hasMany('arrangement','drId');
+        return $this->hasMany('arrangement','drId');
+    }
+
+    public function registration()
+    {
+        return $this->hasManyThrough('registration','arrangement','arrId','drId','id');
     }
 
 }

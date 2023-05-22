@@ -21,7 +21,8 @@
                         <h3 class="box-title">详细信息</h3>
                     </div><!-- /.box-header -->
                     <!-- form start -->
-                    <form role="form" method="post" action='{:url("dashboard/do". request()->action(),"type=$type")}'>
+                    {block name="form"}
+                    <form role="form" method="post" action='{:url("dashboard/". request()->action(),"type=$type")}'>
                         <div class="box-body">
 
                             {foreach $textFields as $field => $name}
@@ -47,14 +48,17 @@
                             <button type="submit" name="action" value="add" class="btn btn-primary">保存</button>
                         </div>
                     </form>
+                    {/block}
                 </div>
             </div><!-- /.box -->
         </div>   <!-- /.row -->
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
-{if request()->action() eq "edit"}
+{include file="../application/view/common/footer.html" /}
+{block name="footer"}
+{if request()->action() eq "update"}
 <script>
     document.getElementById("input_id").style.display = "none";
 </script>
 {/if}
-{include file="../application/view/common/footer.html" /}
+{/block}

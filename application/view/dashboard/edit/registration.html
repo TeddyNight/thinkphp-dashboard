@@ -1,0 +1,92 @@
+{extend name="dashboard/edit/common" /}
+{block name="form"}
+<form role="form" method="post" action='{:url("dashboard/". request()->action(),"type=$type")}'>
+    <div class="box-body">
+
+        {if request()->action() eq "update"}
+        <div id="input_id" class="form-group">
+            <label for="cate_id">编号</label>
+        </div>
+        {/if}
+
+        <div id="input_patId" class="form-group" {if $role neq "admin"}hidden{/if}>
+            <label for="cate_patId">病人编号</label>
+            <input class="form-control" name="patId" value='{if isset($data)}{$data["patId"]}{/if}' >
+        </div>
+
+        <div class="form-group">
+            <label for="cate_department">科室</label>
+            <select class="form-control" name="department" id="department">
+                {foreach $depts as $dept}
+                <option value="{$dept['id']}">{$dept['name']}</option>
+                {/foreach}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="cate_department">医生</label>
+            <select class="form-control" name="doctor" id="doctor">
+                {foreach $depts as $dept}
+                <optgroup label="{$dept['id']}">
+                {foreach $dept["doctor"] as $dr}
+                <option value="{$dr['id']}">{$dr['name']}</option>
+                {/foreach}
+                </optgroup>
+                {/foreach}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="cate_department">时间</label>
+            <select class="form-control" name="arrId" id="time">
+                {foreach $drs as $dr}
+                <optgroup label="{$dr['id']}">
+                {foreach $dr['arrangement'] as $arr}
+                <option value="{$arr->id}">{$arr->startTime} - {$arr->endTime}</option>
+                {/foreach}
+                </optgroup>
+                {/foreach}
+            </select>
+        </div>
+
+    </div><!-- /.box-body -->
+
+    <div class="box-footer">
+        <button type="submit" name="action" value="add" class="btn btn-primary">保存</button>
+    </div>
+</form>
+{/block}
+{block name="footer"}
+{if request()->action() eq "update"}
+<script>
+    document.getElementById("input_id").style.display = "none";
+</script>
+{/if}
+<script>
+    // https://gist.github.com/robcowie/2267793
+    $.fn.filterGroups = function( options ) {
+    var settings = $.extend( {}, options);
+
+    return this.each(function(){
+
+        var $select = $(this);
+        // Clone the optgroups to data, then remove them from dom
+        $select.data('fg-original-'+settings.groupSelector, $select.find('optgroup').clone()).children('optgroup').remove();
+
+        $(settings.groupSelector).change(function(){
+            var $this = $(this);
+            var optgroup_label = $this.val();
+            var $optgroup =  $select.data('fg-original-'+settings.groupSelector).filter('optgroup[label=' + optgroup_label + ']').clone();
+            $select.children('optgroup').remove();
+            $select.append($optgroup);
+            $select.trigger("change");
+        })
+
+    });
+    };
+    $(function() {
+            $('#doctor').filterGroups({groupSelector: '#department', });
+            $('#time').filterGroups({groupSelector: '#doctor', });
+        });
+</script>
+{/block}

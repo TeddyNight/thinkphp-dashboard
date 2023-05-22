@@ -38,4 +38,18 @@ abstract class BaseLogic extends Model
         $data = $this->prepareData($id);
         View::share('data',$data);
     }
+
+    public function prepareInput() {
+        
+    }
+
+    public function loadList() {
+        $this->loadFields();
+        $this->loadRows();
+    }
+
+    public function loadEdit() {
+        $this->loadFields();
+        $this->loadOpts();
+    }
 }
