@@ -17,10 +17,10 @@ class Medicine extends BaseLogic
         $m = model("medicine");
         if (Request::has('search','get')) {
             $search = Request::get('search');
-            $rows = $m->where([['name','like',"%$search%"]])->select();
+            $rows = $m->where([['name','like',"%$search%"],['stockNum','>','0']])->select();
         }
         else {
-            $rows = $m->all();
+            $rows = $m->where([['stockNum','>','0']])->select();
         }
         return $rows;
     }

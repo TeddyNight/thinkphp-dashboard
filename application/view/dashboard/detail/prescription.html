@@ -1,0 +1,82 @@
+{include file="../application/view/common/header.html" /}
+<!-- =============================================== -->
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            {$title}
+        </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">详细信息</h3>
+                    </div><!-- /.box-header -->
+                    <!-- form start -->
+                    {block name="form"}
+                    <form role="form" method="post" action='{:url("dashboard/". request()->action(),"type=$type")}'>
+                        <div class="box-body">
+                            <div id="input_id" class="form-group">
+                                <label for="cate_id">编号</label>
+                                <input class="form-control" name="id" value='{$data["id"]}' disabled>
+                            </div>
+                            <div id="input_id" class="form-group">
+                                <label for="cate_id">病人</label>
+                                <input class="form-control" name="patient" value='{$data["patient"]}' disabled>
+                            </div>
+                            <div id="input_id" class="form-group">
+                                <label for="cate_id">医生</label>
+                                <input class="form-control" name="doctor" value='{$data["doctor"]}' disabled>
+                            </div>
+                            <div id="input_id" class="form-group">
+                                <label for="cate_id">创建时间</label>
+                                <input class="form-control" name="create_time" value='{$data["create_time"]}' disabled>
+                            </div>
+                            <div id="input_id" class="form-group">
+                                <label for="cate_id">病情描述</label>
+                                <textarea class="form-control" name="description" disabled>{$data["description"]}</textarea>
+                            </div>
+                            <div class="box">
+                                <div class="box-header">
+                                <h3 class="box-title">药品清单</h3>
+                                </div>
+                                
+                                <div class="box-body table-responsive no-padding">
+                                <table class="table table-hover">
+                                <tbody><tr>
+                                <th>编号</th>
+                                <th>药品名称</th>
+                                <th>数量</th>
+                                <th>用法</th>
+                                </tr>
+                                {foreach $medicines as $medicine}
+                                <tr>
+                                <td>{$medicine["id"]}</td>
+                                <td>{$medicine["name"]}</td>
+                                <td>{$medicine["num"]}</td>
+                                <td>{$medicine["usage"]}</td>
+                                </tr>
+                                {/foreach}
+                                </tbody></table>
+                                </div>
+                                
+                            </div>
+
+                        </div><!-- /.box-body -->
+
+                    </form>
+                    {/block}
+                </div>
+            </div><!-- /.box -->
+        </div>   <!-- /.row -->
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+{include file="../application/view/common/footer.html" /}

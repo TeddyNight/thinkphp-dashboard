@@ -24,7 +24,7 @@ class Dashboard extends BaseController
 
         $permission = ["doctor" => ["list" => ["arrangement","waitpatient","medicine","prescription"], "update" => [], "create" => ["prescription"], "delete" => [], "detail" => ["prescription"]],
                 "admin" => ["list" => ["all"], "create" => ["all"], "update" => ["all"], "delete" => ["all"], "detail" => []],
-                "patient" => ["list" => ["registration,prescription"], "create" => ["registration"], "update" => [], "delete" => [], "detail" => ["prescription"]]
+                "patient" => ["list" => ["registration","prescription"], "create" => ["registration"], "update" => [], "delete" => [], "detail" => ["prescription"]]
             ];
         $type = Request::param('type');
         $role = Auth::getRole();
@@ -117,6 +117,15 @@ class Dashboard extends BaseController
         return $this->success('删除成功',"/index.php/dashboard/list/type/$type");
     }
 
+    public function detail($type,$id)
+    {
+        $m = model($type,"logic");
+        $m->loadDetail($id);
+        $this->assign('title',$m->alias);
+        $this->assign('type',$type);
+        return $this->fetch("dashboard/detail/$type");
+    }
+
     protected function prepare() {
         parent::prepare();
         $role = Auth::getRole();
@@ -143,6 +152,7 @@ class Dashboard extends BaseController
             $sidebar = array(
                 "首页" => url('dashboard/index'),
                 "挂号" => url('dashboard/list','type=registration'),
+                "就诊记录" => url('dashboard/list','type=prescription')
             );
         }
         $this->assign("role",$role);

@@ -33,7 +33,7 @@ class User extends BaseController
         }
         else {
             $ret['ok'] = true;
-            Auth::login($account,$role);
+            Auth::login($res["id"],$role);
         }
         return json($ret);
     }
