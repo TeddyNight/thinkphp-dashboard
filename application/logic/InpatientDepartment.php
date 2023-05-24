@@ -4,16 +4,16 @@ namespace app\logic;
 use think\Model;
 use app\common\BaseLogic;
 
-class Clinicdepartment extends BaseLogic
+class InpatientDepartment extends BaseLogic
 {
-    public $alias = "门诊部科室";
+    public $alias = "住院部科室";
     protected $fields = array("id" => "编号", "name" => "科室名称");
     protected $textFields = array("id" => "编号" , "name" => "科室名称");
     protected $optFields = [];
 
     public function prepareRows()
     {
-        $m = model("clinic_department");
+        $m = model("inpatient_department");
         $rows = $m->all();
         return $rows;
     }
@@ -26,7 +26,7 @@ class Clinicdepartment extends BaseLogic
 
     public function prepareData($id)
     {
-        $m = model("clinic_department");
+        $m = model("inpatient_department");
         return $m->where('id',$id)->find();
     }
 

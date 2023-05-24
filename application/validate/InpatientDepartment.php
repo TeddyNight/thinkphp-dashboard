@@ -3,10 +3,10 @@ namespace app\validate;
 
 use think\Validate;
 
-class Registration extends Validate
+class InpatientDepartment extends Validate
 {
     protected $rule = [
-        'arrId' => 'require|number'
+        'name' => 'require|length:2,30'
     ];
 }
 ?>

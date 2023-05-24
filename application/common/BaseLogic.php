@@ -3,6 +3,7 @@ namespace app\common;
 
 use think\Model;
 use think\facade\View;
+use think\facade\Request;
 
 abstract class BaseLogic extends Model
 {
@@ -60,5 +61,10 @@ abstract class BaseLogic extends Model
 
     public function doUpdate() {
         $this->allowField(true)->isUpdate(true)->save($_POST);
+    }
+
+    public function doDelete() {
+        $id = Request::param('id');
+        $this->destroy($id);
     }
 }

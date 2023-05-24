@@ -50,4 +50,9 @@ class Registration extends BaseLogic
         return $m->where('id',$id)->find();
     }
 
+    public function doCreate() {
+        $this->patId = Auth::getAccount();
+        $this->allowField(true)->save($_POST);
+    }
+
 }

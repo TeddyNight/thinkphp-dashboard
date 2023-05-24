@@ -24,7 +24,7 @@ class Dashboard extends BaseController
 
         $permission = ["doctor" => ["list" => ["clinic_arrangement","wait_patient","medicine","prescription"], "update" => [], "create" => ["prescription"], "delete" => [], "detail" => ["prescription"]],
                 "admin" => ["list" => ["all"], "create" => ["all"], "update" => ["all"], "delete" => ["all"], "detail" => ["all"]],
-                "patient" => ["list" => ["registration","prescription"], "create" => ["registration"], "update" => [], "delete" => [], "detail" => ["prescription"]]
+                "patient" => ["list" => ["registration","prescription","inpatient_file"], "create" => ["registration","inpatient_file"], "update" => [], "delete" => [], "detail" => ["prescription"]]
             ];
         $type = Request::param('type');
         $role = Auth::getRole();
@@ -112,10 +112,10 @@ class Dashboard extends BaseController
         return $this->fetch("dashboard/edit/$type");
     }
 
-    public function delete($type,$id)
+    public function delete($type)
     {
-        $m = model($type);
-        $m->destroy($id);
+        $m = model($type,"logic");
+        $m->doDelete();
         return $this->success('删除成功',"/index.php/dashboard/list/type/$type");
     }
 

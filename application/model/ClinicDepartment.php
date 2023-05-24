@@ -14,4 +14,5 @@ class ClinicDepartment extends Model
     {
         return $this->hasMany('doctor','c_deptId','id');
     }
+
 }

@@ -3,20 +3,8 @@
 <form role="form" method="post" action='{:url("dashboard/". request()->action(),"type=$type")}'>
     <div class="box-body">
 
-        {if request()->action() eq "update"}
-        <div id="input_id" class="form-group">
-            <label for="cate_id">编号</label>
-            <input class="form-control" name="id" value='{if isset($data)}{$data["id"]}{/if}' >
-        </div>
-        {/if}
-
-        <div id="input_patId" class="form-group" {if $role neq "admin"}hidden{/if}>
-            <label for="cate_patId">病人编号</label>
-            <input class="form-control" name="patId" value='{if isset($data)}{$data["patId"]}{else}{$account}{/if}' >
-        </div>
-
         <div class="form-group">
-            <label for="cate_department">科室</label>
+            <label for="cate_department">住院部科室</label>
             <select class="form-control" name="department" id="department">
                 {foreach $depts as $dept}
                 <option value="{$dept['id']}">{$dept['name']}</option>
@@ -25,12 +13,12 @@
         </div>
 
         <div class="form-group">
-            <label for="cate_department">医生</label>
-            <select class="form-control" name="doctor" id="doctor">
+            <label for="cate_room">病房号</label>
+            <select class="form-control" name="rId" id="room">
                 {foreach $depts as $dept}
                 <optgroup label="{$dept['id']}">
-                {foreach $dept["doctor"] as $dr}
-                <option value="{$dr['id']}">{$dr['name']}</option>
+                {foreach $dept["inpatient_room"] as $room}
+                <option value="{$room['id']}">{$room['id']}</option>
                 {/foreach}
                 </optgroup>
                 {/foreach}
@@ -38,12 +26,12 @@
         </div>
 
         <div class="form-group">
-            <label for="cate_department">时间</label>
-            <select class="form-control" name="arrId" id="time">
-                {foreach $drs as $dr}
-                <optgroup label="{$dr['id']}">
-                {foreach $dr['clinic_arrangement'] as $arr}
-                <option value="{$arr->id}" {if isset($data)}{if $arr["id"] eq $data["arrId"]}selected{/if}{/if}>{$arr->start_time} - {$arr->end_time}</option>
+            <label for="cate_bed">病床号</label>
+            <select class="form-control" name="bId" id="bed">
+                {foreach $rooms as $room}
+                <optgroup label="{$room['id']}">
+                {foreach $dept["inpatient_bed"] as $bed}
+                <option value="{$bed['bId']}">{$bed['bId']}</option>
                 {/foreach}
                 </optgroup>
                 {/foreach}
@@ -58,9 +46,6 @@
 </form>
 {/block}
 {block name="footer"}
-<script>
-    document.getElementById("input_id").style.display = "none";
-</script>
 <script>
     // https://gist.github.com/robcowie/2267793
     $.fn.filterGroups = function( options ) {
@@ -84,8 +69,8 @@
     });
     };
     $(function() {
-            $('#doctor').filterGroups({groupSelector: '#department', });
-            $('#time').filterGroups({groupSelector: '#doctor', });
+            $('#room').filterGroups({groupSelector: '#department', });
+            $('#bed').filterGroups({groupSelector: '#room', });
         });
 </script>
 {/block}

@@ -15,4 +15,14 @@ class Doctor extends Model
         return $this->hasMany('clinic_arrangement','drId');
     }
 
+    public function InpatientDepartment()
+    {
+        return $this->belongsTo('inpatient_department',"i_deptId","id");
+    }
+
+    public function InpatientArrangement()
+    {
+        return $this->hasMany('inpatient_arrangement','drId');
+    }
+
 }
