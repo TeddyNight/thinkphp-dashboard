@@ -26,7 +26,7 @@ class Prescription extends BaseLogic
         else if ($role == "patient") {
             $rows = Db::query("SELECT p.id,p.create_time,d.name doctor,pat.name patient FROM prescription p 
                 INNER JOIN registration r
-                INNER JOIN arrangement a
+                INNER JOIN clinic_arrangement a
                 INNER JOIN doctor d
                 INNER JOIN patient pat
                 ON (p.rId = r.id AND r.aId = a.id AND a.drId = d.id AND r.pId = pat.id)
@@ -35,7 +35,7 @@ class Prescription extends BaseLogic
         else if ($role == "doctor") {
             $rows = Db::query("SELECT p.id,p.create_time,d.name doctor,pat.name patient FROM prescription p 
                 INNER JOIN registration r
-                INNER JOIN arrangement a
+                INNER JOIN clinic_arrangement a
                 INNER JOIN doctor d
                 INNER JOIN patient pat
                 ON (p.rId = r.id AND r.aId = a.id AND a.drId = d.id AND r.pId = pat.id)
@@ -65,7 +65,7 @@ class Prescription extends BaseLogic
             $tmp = array('pId' => $pId, 'mId' => $mId, 'num' => $num);
             array_push($mList,$tmp);
         }
-        $m = model("clinicmedicine");
+        $m = model("ClinicMedicine");
         $m->saveAll($mList);
     }
 
@@ -77,7 +77,7 @@ class Prescription extends BaseLogic
         $data = Db::query("SELECT p.id,p.create_time,d.name doctor,pat.name patient,p.description `description`
         FROM prescription p 
         INNER JOIN registration r
-        INNER JOIN arrangement a
+        INNER JOIN clinic_arrangement a
         INNER JOIN doctor d
         INNER JOIN patient pat
         ON (p.rId = r.id AND r.aId = a.id AND a.drId = d.id AND r.pId = pat.id)

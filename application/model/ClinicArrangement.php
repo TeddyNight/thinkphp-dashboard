@@ -3,7 +3,7 @@ namespace app\model;
 
 use think\Model;
 
-class Arrangement extends Model
+class ClinicArrangement extends Model
 {
     public function doctor()
     {
@@ -15,21 +15,15 @@ class Arrangement extends Model
         return  $this->hasMany('registration','arrId');
     }
 
-    public function getNameAttr($value,$data)
+    public function room()
     {
-        $doctor = Doctor::get($data["drId"]);
-        return  "{$doctor["name"]} {$data["startTime"]}-{$data["endTime"]} {$data["room"]}诊室";
+        return $this->belongsTo('room','rId','id');
     }
 
     public function getDoctorAttr($value,$data)
     {
         $doctor = Doctor::get($data["drId"]);
         return $doctor["name"];
-    }
-
-    public function getTimeAttr($value,$data)
-    {
-        return "{$data["startTime"]} - {$data["endTime"]}";
     }
 
 }

@@ -92,6 +92,27 @@
 
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
+                {if $role eq "patient"}
+                <li>
+                    <a href="{:url('dashboard/index')}">
+                         <span>首页</span>
+                    </a>
+                </li>
+                <li class="header">门诊</li>
+                <li>
+                    <a href="{:url('dashboard/list','type=registration')}">
+                         <span>挂号</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{:url('dashboard/list','type=prescription')}">
+                         <span>就诊记录</span>
+                    </a>
+                </li>
+                <li class="header">住院</li>
+                {/if}
+
+                {if $role neq "patient"}
                 {foreach $sidebar as $name => $url}
                 <li>
                     <a href="{$url}">
@@ -99,6 +120,7 @@
                     </a>
                 </li>
                 {/foreach}
+                {/if}
 
             </ul>
         </section>

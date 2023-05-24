@@ -3,14 +3,13 @@ namespace app\validate;
 
 use think\Validate;
 
-class Arrangement extends Validate
+class ClinicArrangement extends Validate
 {
     protected $rule = [
         'room' => 'require|length:2,20',
-        'startTime' => 'require|date',
-        'endTime' => 'require|date',
+        'start_time' => 'require|date',
+        'end_time' => 'require|date',
         'drId' => 'require|number|length:11',
-        'type' => 'require'
     ];
 }
 ?>

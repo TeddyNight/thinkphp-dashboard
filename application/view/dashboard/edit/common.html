@@ -28,7 +28,7 @@
                             {foreach $textFields as $field => $name}
                             <div id="input_{$field}" class="form-group">
                                 <label for="cate_{$field}">{$name}</label>
-                                <input {if strpos($field, 'Time') !== false}type="datetime-local"{/if} class="form-control" name="{$field}" value='{if isset($data)}{$data["$field"]}{/if}' >
+                                <input {if strpos($field, 'time') !== false}type="datetime-local"{/if} class="form-control" name="{$field}" value='{if isset($data)}{$data["$field"]}{/if}' >
                             </div>
                             {/foreach}
                             {foreach $optFields as $field => $name}

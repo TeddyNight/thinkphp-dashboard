@@ -4,25 +4,25 @@ namespace app\logic;
 use think\Model;
 use app\common\BaseLogic;
 use app\common\UserLogic;
+use think\Db;
 
 class Doctor extends BaseLogic implements UserLogic
 {
     public $alias = "医生";
-    protected $fields = array("id" => "工号", "name" => "姓名", "phone" => "电话", "department" => "部门");
+    protected $fields = array("id" => "工号", "name" => "姓名", "phone" => "电话");
     protected $textFields = array("id" => "工号", "name" => "姓名", "phone" => "电话");
-    protected $optFields = array("sex" => "性别" , "title" => "职称", "deptId" => "所属科室");
+    protected $optFields = array("sex" => "性别" , "title" => "职称");
 
     public function prepareRows()
     {
         $m = model("doctor");
-        $rows = $m->with("department")->all()->bindAttr('department',["department" => "name"]);
+        $rows = $m->all();
         return $rows;
     }
 
     public function prepareOpts()
     {
-        $m = model("department");
-        $opts = array("deptId" => $m->all()->toArray(), 
+        $opts = array(
                 "sex" => [array('id' => '男', 'name' => '男'), array('id' => '女', 'name' => '女')],
                 "title" => [array('id' => '初级', 'name' => '初级'),
                         array('id' => '中级', 'name' => '中级'),

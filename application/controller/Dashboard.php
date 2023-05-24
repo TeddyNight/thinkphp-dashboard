@@ -22,7 +22,7 @@ class Dashboard extends BaseController
             return $this->error("请先登录","/index.php/user/login");
         }
 
-        $permission = ["doctor" => ["list" => ["arrangement","waitpatient","medicine","prescription"], "update" => [], "create" => ["prescription"], "delete" => [], "detail" => ["prescription"]],
+        $permission = ["doctor" => ["list" => ["clinic_arrangement","waitpatient","medicine","prescription"], "update" => [], "create" => ["prescription"], "delete" => [], "detail" => ["prescription"]],
                 "admin" => ["list" => ["all"], "create" => ["all"], "update" => ["all"], "delete" => ["all"], "detail" => []],
                 "patient" => ["list" => ["registration","prescription"], "create" => ["registration"], "update" => [], "delete" => [], "detail" => ["prescription"]]
             ];
@@ -47,7 +47,8 @@ class Dashboard extends BaseController
 
     public function index() 
     {
-        return $this->fetch('index');
+        $role = Auth::getRole();
+        return $this->fetch("dashboard/index/$role");
     }
 
     public function list($type) 
@@ -61,6 +62,7 @@ class Dashboard extends BaseController
             $ret = array("results" => $results);
             return json($ret);
         }
+        
         $m = model($type,"logic");
         $m->loadList();
 
@@ -133,9 +135,9 @@ class Dashboard extends BaseController
             $sidebar = array(
                 "首页" => url('dashboard/index'),
                 "医院管理" => "",
-                "科室管理" => url('dashboard/list','type=department'),
+                "门诊科室" => url('dashboard/list','type=clinic_department'),
                 "医生管理" => url('dashboard/list','type=doctor'),
-                "排班管理" => url('dashboard/list','type=arrangement'),
+                "坐诊安排" => url('dashboard/list','type=clinic_arrangement'),
                 "病人管理" => url('dashboard/list','type=patient'),
                 "药品管理" => url('dashboard/list','type=medicine'),
             );
@@ -143,7 +145,7 @@ class Dashboard extends BaseController
         else if ($role == "doctor") {
             $sidebar = array(
                 "首页" => url('dashboard/index'),
-                "排班情况" => url('dashboard/list','type=arrangement'),
+                "排班情况" => url('dashboard/list','type=clinic_arrangement'),
                 "待接诊病人" => url('dashboard/list','type=waitpatient'),
                 "已开处方列表" => url('dashboard/list','type=prescription')
             );

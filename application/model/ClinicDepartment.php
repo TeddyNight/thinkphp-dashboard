@@ -4,7 +4,7 @@ namespace app\model;
 use think\Model;
 use app\common\BaseModel;
 
-class Department extends Model
+class ClinicDepartment extends Model
 {
     protected $type = [
         'id'    =>  'integer'
@@ -12,6 +12,6 @@ class Department extends Model
 
     public function doctor()
     {
-        return $this->hasMany('Doctor','deptId');
+        return $this->hasManyThrough('ClinicDoctor','doctor','drId','deptId','id');
     }
 }
