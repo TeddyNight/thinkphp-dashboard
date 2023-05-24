@@ -38,7 +38,7 @@ class Registration extends BaseLogic
 
     public function loadEdit()
     {
-        $dept = model("department")->with("doctor");
+        $dept = model("clinic_department")->with("doctor");
         View::share("depts",$dept->all());
         $dr = model("doctor")->with("clinic_arrangement");
         View::share("drs",$dr->all());

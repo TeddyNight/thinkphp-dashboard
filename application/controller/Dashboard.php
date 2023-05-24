@@ -79,7 +79,7 @@ class Dashboard extends BaseController
                 return $this->error($vaildator);
             }
             $m = model($type,"logic");
-            $m->doSave();
+            $m->doCreate();
             return $this->success('添加成功',"/index.php/dashboard/list/type/$type");
         }
 

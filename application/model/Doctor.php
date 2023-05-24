@@ -5,14 +5,14 @@ use think\Model;
 
 class Doctor extends Model
 {
-    public function department()
+    public function ClinicDepartment()
     {
-        return $this->belongsTo('department',"deptId","id");
+        return $this->belongsTo('clinic_department',"c_deptId","id");
     }
 
     public function ClinicArrangement()
     {
-        return $this->hasMany('ClinicArrangement','drId');
+        return $this->hasMany('clinic_arrangement','drId');
     }
 
 }

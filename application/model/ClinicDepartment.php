@@ -12,6 +12,6 @@ class ClinicDepartment extends Model
 
     public function doctor()
     {
-        return $this->hasManyThrough('ClinicDoctor','doctor','drId','deptId','id');
+        return $this->hasMany('doctor','c_deptId','id');
     }
 }

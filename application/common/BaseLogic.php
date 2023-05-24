@@ -54,7 +54,7 @@ abstract class BaseLogic extends Model
         $this->loadOpts();
     }
 
-    public function doSave() {
+    public function doCreate() {
         $this->allowField(true)->save($_POST);
     }
 

@@ -30,4 +30,11 @@ class Clinicdepartment extends BaseLogic
         return $m->where('id',$id)->find();
     }
 
+    public function doCreate() {
+        $this->allowField(true)->save($_POST);
+    }
+
+    public function doUpdate() {
+        $this->allowField(true)->isUpdate(true)->save($_POST);
+    }
 }

@@ -60,7 +60,7 @@ class Prescription extends BaseLogic
         return $m->where('id',$id)->find();
     }
 
-    public function doSave() {
+    public function doCreate() {
         $this->allowField(true)->save($_POST);
         $pId = $this->id;
         $medicine = array_count_values($_POST["medicine"]);

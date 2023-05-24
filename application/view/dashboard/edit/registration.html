@@ -42,8 +42,8 @@
             <select class="form-control" name="arrId" id="time">
                 {foreach $drs as $dr}
                 <optgroup label="{$dr['id']}">
-                {foreach $dr['arrangement'] as $arr}
-                <option value="{$arr->id}" {if isset($data)}{if $arr["id"] eq $data["arrId"]}selected{/if}{/if}>{$arr->startTime} - {$arr->endTime}</option>
+                {foreach $dr['clinic_arrangement'] as $arr}
+                <option value="{$arr->id}" {if isset($data)}{if $arr["id"] eq $data["arrId"]}selected{/if}{/if}>{$arr->start_time} - {$arr->end_time}</option>
                 {/foreach}
                 </optgroup>
                 {/foreach}
