@@ -6,4 +6,5 @@ use app\common\BaseModel;
 
 class ClinicMedicine extends Model
 {
+    $protected pk = ['mId','pId'];
 }

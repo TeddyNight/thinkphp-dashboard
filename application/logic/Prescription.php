@@ -80,10 +80,10 @@ class Prescription extends BaseLogic
         INNER JOIN arrangement a
         INNER JOIN doctor d
         INNER JOIN patient pat
-        ON (p.rId = r.id AND r.arrId = a.id AND a.drId = d.id AND r.patId = pat.id)
+        ON (p.rId = r.id AND r.aId = a.id AND a.drId = d.id AND r.pId = pat.id)
         WHERE p.id = $id LIMIT 1")[0];
         View::share("data",$data);
-        $medicines = Db::query("SELECT mlist.id, m.name, mlist.num, m.usage
+        $medicines = Db::query("SELECT m.name, mlist.num, m.usage
         FROM clinic_medicine mlist
         INNER JOIN medicine m
         ON (mlist.mId = m.id)
