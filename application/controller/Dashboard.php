@@ -22,8 +22,8 @@ class Dashboard extends BaseController
             return $this->error("请先登录","/index.php/user/login");
         }
 
-        $permission = ["doctor" => ["list" => ["clinic_arrangement","waitpatient","medicine","prescription"], "update" => [], "create" => ["prescription"], "delete" => [], "detail" => ["prescription"]],
-                "admin" => ["list" => ["all"], "create" => ["all"], "update" => ["all"], "delete" => ["all"], "detail" => []],
+        $permission = ["doctor" => ["list" => ["clinic_arrangement","wait_patient","medicine","prescription"], "update" => [], "create" => ["prescription"], "delete" => [], "detail" => ["prescription"]],
+                "admin" => ["list" => ["all"], "create" => ["all"], "update" => ["all"], "delete" => ["all"], "detail" => ["all"]],
                 "patient" => ["list" => ["registration","prescription"], "create" => ["registration"], "update" => [], "delete" => [], "detail" => ["prescription"]]
             ];
         $type = Request::param('type');
@@ -131,35 +131,8 @@ class Dashboard extends BaseController
     protected function prepare() {
         parent::prepare();
         $role = Auth::getRole();
-        if ($role == "admin") {
-            $sidebar = array(
-                "首页" => url('dashboard/index'),
-                "医院管理" => "",
-                "门诊科室" => url('dashboard/list','type=clinic_department'),
-                "医生管理" => url('dashboard/list','type=doctor'),
-                "坐诊安排" => url('dashboard/list','type=clinic_arrangement'),
-                "病人管理" => url('dashboard/list','type=patient'),
-                "药品管理" => url('dashboard/list','type=medicine'),
-            );
-        }
-        else if ($role == "doctor") {
-            $sidebar = array(
-                "首页" => url('dashboard/index'),
-                "排班情况" => url('dashboard/list','type=clinic_arrangement'),
-                "待接诊病人" => url('dashboard/list','type=waitpatient'),
-                "已开处方列表" => url('dashboard/list','type=prescription')
-            );
-        }
-        else if ($role == "patient") {
-            $sidebar = array(
-                "首页" => url('dashboard/index'),
-                "挂号" => url('dashboard/list','type=registration'),
-                "就诊记录" => url('dashboard/list','type=prescription')
-            );
-        }
         $this->assign("role",$role);
         $this->assign("account",Auth::getAccount());
-        $this->assign("sidebar",$sidebar);
     }
 
 }

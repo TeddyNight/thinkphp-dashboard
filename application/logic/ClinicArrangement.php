@@ -44,19 +44,15 @@ class ClinicArrangement extends BaseLogic
             return array("id" => $row['id'], "name" => $row['id']);
         },model("clinic_room")->all()->toArray());
         $opts = array("drId" => $doctor,
-                    "room" => $room
+                    "rId" => $room
             );
         return $opts;
     }
 
     public function prepareData($id)
     {
-        $data = Db::query("SELECT a.id id, r.room clinic_room, a.start_time, a.end_time, a.drId
-                        FROM clinic_arrangement a
-                        INNER JOIN clinic_room r
-                        ON (a.rId = r.id)
-                        WHERE a.id = $id
-                        LIMIT 1")[0];
+        $m = model("clinic_arrangement");
+        $data = $m->get($id);
         return $data;
     }
 

@@ -20,8 +20,12 @@ class Prescription extends BaseLogic
         $role = Auth::getRole();
         $account = Auth::getAccount();
         if ($role == "admin") {
-            $m = model("prescription");
-            $rows = $m->all();
+            $rows = Db::query("SELECT p.id,p.create_time,d.name doctor,pat.name patient FROM prescription p 
+                INNER JOIN registration r
+                INNER JOIN clinic_arrangement a
+                INNER JOIN doctor d
+                INNER JOIN patient pat
+                ON (p.rId = r.id AND r.aId = a.id AND a.drId = d.id AND r.pId = pat.id)");
         }
         else if ($role == "patient") {
             $rows = Db::query("SELECT p.id,p.create_time,d.name doctor,pat.name patient FROM prescription p 

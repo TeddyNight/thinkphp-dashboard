@@ -112,14 +112,78 @@
                 <li class="header">住院</li>
                 {/if}
 
-                {if $role neq "patient"}
-                {foreach $sidebar as $name => $url}
+                {if $role eq "doctor"}
                 <li>
-                    <a href="{$url}">
-                         <span>{$name}</span>
+                    <a href="{:url('dashboard/index')}">
+                         <span>首页</span>
                     </a>
                 </li>
-                {/foreach}
+                <li class="header">门诊</li>
+                <li>
+                    <a href="{:url('dashboard/list','type=clinic_arrangement')}">
+                         <span>坐诊安排</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{:url('dashboard/list','type=wait_patient')}">
+                         <span>待接诊病人</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{:url('dashboard/list','type=prescription')}">
+                         <span>已开处方列表</span>
+                    </a>
+                </li>
+                <li class="header">住院</li>
+                {/if}
+
+                {if $role eq "admin"}
+                <li>
+                    <a href="{:url('dashboard/index')}">
+                         <span>首页</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                         <span>医院管理</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{:url('dashboard/list','type=doctor')}">
+                         <span>医生管理</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{:url('dashboard/list','type=patient')}">
+                         <span>病人管理</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{:url('dashboard/list','type=medicine')}">
+                         <span>药品管理</span>
+                    </a>
+                </li>
+                <li class="header">门诊</li>
+                <li>
+                    <a href="{:url('dashboard/list','type=clinic_department')}">
+                         <span>门诊科室</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{:url('dashboard/list','type=clinic_arrangement')}">
+                         <span>坐诊安排</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{:url('dashboard/list','type=registration')}">
+                         <span>挂号表</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{:url('dashboard/list','type=prescription')}">
+                         <span>处方列表</span>
+                    </a>
+                </li>
                 {/if}
 
             </ul>

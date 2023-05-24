@@ -10,9 +10,9 @@ class Doctor extends Model
         return $this->belongsTo('department',"deptId","id");
     }
 
-    public function arrangement()
+    public function ClinicArrangement()
     {
-        return $this->hasMany('arrangement','drId');
+        return $this->hasMany('ClinicArrangement','drId');
     }
 
 }
