@@ -120,6 +120,11 @@
                          <span>住院档案</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{:url('dashboard/list','type=treatment')}">
+                         <span>诊疗方案</span>
+                    </a>
+                </li>
                 {/if}
 
                 {if $role eq "doctor"}
@@ -144,7 +149,17 @@
                          <span>已开处方列表</span>
                     </a>
                 </li>
-                <li class="header">住院部</li>                
+                <li class="header">住院部</li>
+                <li>
+                    <a href="{:url('dashboard/list','type=treatment')}">
+                         <span>诊疗方案</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{:url('dashboard/list','type=inpatient_arrangement')}">
+                         <span>巡诊安排</span>
+                    </a>
+                </li>                
                 {/if}
 
                 {if $role eq "admin"}
@@ -198,6 +213,11 @@
                 <li>
                     <a href="{:url('dashboard/list','type=inpatient_department')}">
                          <span>住院部科室</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{:url('dashboard/list','type=inpatient_arrangement')}">
+                         <span>巡诊安排</span>
                     </a>
                 </li>
                 <li>

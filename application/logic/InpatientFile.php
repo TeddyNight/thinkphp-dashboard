@@ -3,6 +3,7 @@ namespace app\logic;
 
 use think\Model;
 use app\common\BaseLogic;
+use app\common\Auth;
 use think\facade\Request;
 use think\facade\View;
 
@@ -16,13 +17,34 @@ class InpatientFile extends BaseLogic
     public function prepareRows()
     {
         $m = model("inpatient_file");
-        $rows = $m->all();
+        $role = Auth::getRole();
+        $account = Auth::getAccount();
+        if ($role == "admin") {
+            $rows = $m->with("doctor,patient")
+                    ->all()
+                    ->bindAttr("doctor",["doctor" => "name"])
+                    ->bindAttr("patient",["patient" => "name"]);
+        }
+        else if ($role == "patient") {
+            $rows = $m->with("doctor,patient")
+                    ->where('pId',$account)
+                    ->select()
+                    ->bindAttr("doctor",["doctor" => "name"])
+                    ->bindAttr("patient",["patient" => "name"]);
+        }
+        else if ($role == "doctor") {
+            $rows = $m->with("doctor,patient")
+                    ->where('drId',$account)
+                    ->select()
+                    ->bindAttr("doctor",["doctor" => "name"])
+                    ->bindAttr("patient",["patient" => "name"]);
+        }
         return $rows;
     }
 
     public function prepareOpts()
     {
-
+        
     }
 
     public function loadEdit()
@@ -41,6 +63,7 @@ class InpatientFile extends BaseLogic
 
     public function doCreate() {
         $this->pId = Auth::getAccount();
+        $this->admission_date = date('Y-m-d');
         $this->allowField(true)->save($_POST);
     }
 

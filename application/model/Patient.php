@@ -12,5 +12,9 @@ class Patient extends Model
         return  $this->hasMany('registration','patId');
     }
 
+    public function InpatientFile()
+    {
+        return $this->hasMany('inpatient_file','pId','id');
+    }
     
 }

@@ -1,0 +1,77 @@
+{extend name="dashboard/edit/common" /}
+{block name="form"}
+<form role="form" method="post" action='{:url("dashboard/". request()->action(),"type=$type")}'>
+    <div class="box-body">
+
+        {if request()->action() eq "update"}
+        <div id="input_id" class="form-group">
+            <label for="cate_id">编号</label>
+            <input class="form-control" name="id" value='{if isset($data)}{$data["id"]}{/if}' >
+        </div>
+        {/if}
+
+        <div id="input_fId" class="form-group">
+            <label for="cate_fId">病人</label>
+            <select class="form-control" name="fId">
+                {foreach $files as $file}
+                <option value="{$file['id']}">{$file['patient']} - {$file['rId']}病房</option>
+                {/foreach}
+            </select>
+        </div>
+
+        <div id="input_rId" class="form-group">
+            <label for="cate_description">诊疗方案描述</label>
+            <textarea class="form-control" name="description" rows="5" placeholder="请输入...">{if isset($data)}{$data["description"]}{/if}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="cate_department">药品清单</label>
+            <select class="medicine-list form-control" name="medicine[]" multiple="multiple" reuse="reuse"></select>
+        </div>
+
+    </div><!-- /.box-body -->
+
+    <div class="box-footer">
+        <button type="submit" name="action" value="add" class="btn btn-primary">保存</button>
+    </div>
+</form>
+{/block}
+{block name="footer"}
+<script>
+
+    $('.medicine-list').select2({
+        ajax: {
+            url: '{:url("dashboard/list","type=medicine")}',
+            dataType: 'json',
+            tags: true,
+            data: function (params) {
+            var query = {
+                search: params.term,
+            }
+
+            return query;
+            }
+        }
+    });
+
+    // https://stackoverflow.com/questions/57634638/allow-duplicates-selection-in-select2-dropdown
+    $('.medicine-list').on('select2:unselect', function (e) {
+    //console.log("UNSELECT");
+    //console.log(e);
+    if (e.params.originalEvent != null && e.params.originalEvent.handleObj.type == "mouseup") {
+        $(this).append('<option value="' + e.params.data.id + '">' + e.params.data.text + '</option>');
+        let vals = $(this).val();
+        vals.push(e.params.data.id);
+        $(this).val(vals).trigger('change');
+        $(this).select2('close');
+    } else if (e.params.data.element != null) {
+        e.params.data.element.remove();
+    }
+});
+</script>
+
+<script>
+    document.getElementById("input_id").style.display = "none";
+</script>
+
+{/block}

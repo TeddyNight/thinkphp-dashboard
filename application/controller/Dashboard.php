@@ -22,9 +22,9 @@ class Dashboard extends BaseController
             return $this->error("请先登录","/index.php/user/login");
         }
 
-        $permission = ["doctor" => ["list" => ["clinic_arrangement","wait_patient","medicine","prescription"], "update" => [], "create" => ["prescription"], "delete" => [], "detail" => ["prescription"]],
+        $permission = ["doctor" => ["list" => ["clinic_arrangement","wait_patient","medicine","prescription","treatment","inpatient_arrangement"], "update" => [], "create" => ["prescription","treatment"], "delete" => [], "detail" => ["prescription","treatment"]],
                 "admin" => ["list" => ["all"], "create" => ["all"], "update" => ["all"], "delete" => ["all"], "detail" => ["all"]],
-                "patient" => ["list" => ["registration","prescription","inpatient_file"], "create" => ["registration","inpatient_file"], "update" => [], "delete" => [], "detail" => ["prescription"]]
+                "patient" => ["list" => ["registration","prescription","inpatient_file","treatment"], "create" => ["registration","inpatient_file"], "update" => [], "delete" => [], "detail" => ["prescription"]]
             ];
         $type = Request::param('type');
         $role = Auth::getRole();

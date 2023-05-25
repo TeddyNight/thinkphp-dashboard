@@ -10,9 +10,5 @@ class InpatientRoom extends Validate
         'deptId' => 'require|number'
     ];
 
-    public function InpatientBed()
-    {
-        return $this->hasMany('inpatient_bed','rId','id');
-    }
 }
 ?>

@@ -21,7 +21,7 @@
 
         <div class="form-group">
             <label for="cate_doctor">主治医生</label>
-            <select class="form-control" name="doctor" id="doctor">
+            <select class="form-control" name="drId" id="doctor">
                 {foreach $depts as $dept}
                 <optgroup label="{$dept['id']}">
                 {foreach $dept["doctor"] as $dr}

@@ -18,11 +18,18 @@ class InpatientArrangement extends BaseLogic
         $rows = [];
         $role = Auth::getRole();
         if ($role == "admin") {
-            $rows = model('inpatient_department')->with("doctor")->all()->bindAttr("doctor",["doctor" => "name"]);
+            $rows = model('inpatient_arrangement')
+                    ->with("doctor")
+                    ->all()
+                    ->bindAttr("doctor",["doctor" => "name"]);
         }
         else if ($role == "doctor") {
             $account = Auth::getAccount();
-            $rows = model('inpatient_department')->with("doctor")->where("drId",$account)->bindAttr("doctor",["doctor"=>"name"]); 
+            $rows = model('inpatient_arrangement')
+                    ->with("doctor")
+                    ->where("drId",$account)
+                    ->select()
+                    ->bindAttr("doctor",["doctor"=>"name"]); 
         }
         return $rows;
     }
@@ -30,11 +37,7 @@ class InpatientArrangement extends BaseLogic
     public function prepareOpts()
     {
         $doctor = model("doctor")->all()->toArray();
-        $room = array_map(function ($row) {
-            return array("id" => $row['id'], "name" => $row['id']);
-        },model("clinic_room")->all()->toArray());
-        $opts = array("drId" => $doctor,
-                    "rId" => $room
+        $opts = array("drId" => $doctor
             );
         return $opts;
     }

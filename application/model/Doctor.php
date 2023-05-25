@@ -25,4 +25,9 @@ class Doctor extends Model
         return $this->hasMany('inpatient_arrangement','drId');
     }
 
+    public function InpatientFile()
+    {
+        return $this->hasMany('inpatient_file','drId','id');
+    }
+
 }
