@@ -1,0 +1,17 @@
+{extend name="dashboard/list/common" /}
+{block name="table"}
+<table class="table table-hover">
+    <tr>
+        {foreach $fields as $field} 
+        <th>{$field}</th>
+        {/foreach}
+    </tr>
+    {foreach $rows as $row}
+    <tr>
+    <?php foreach(array_keys($fields) as $key) { ?>
+    <td>{$row["$key"]}</td>
+    <?php } ?>
+    </tr>
+    {/foreach}
+</table>
+{/block}

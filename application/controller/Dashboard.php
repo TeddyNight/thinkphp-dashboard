@@ -100,7 +100,7 @@ class Dashboard extends BaseController
             }
             $m = model($type,"logic");
             $m->doUpdate();
-            return $this->success('修改成功',"/index.php/dashboard/list/type/$type");
+            return $this->success('修改成功');
         }
 
         $m = model($type,"logic");
