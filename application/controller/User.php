@@ -38,9 +38,29 @@ class User extends BaseController
         return json($ret);
     }
 
+    public function doRegister($role) {
+        $ret = array('ok' => false, 'msg' => '');
+        $vaildator = $this->validate($_POST,$role);
+        if(true !== $vaildator){
+            $ret['msg'] = $vaildator;
+            return json($ret);
+        }
+        $m = model($role,"logic");
+        $m->doCreate();
+        $ret['ok'] = true;
+        return json($ret);
+    }
+
     public function logout() {
         Auth::logout();
         return $this->success("注销成功");
+    }
+
+    public function register()
+    {
+        $this->prepare();
+        $this->assign('role',"patient");
+        return $this->fetch('register');
     }
 
 }

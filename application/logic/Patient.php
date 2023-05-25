@@ -10,7 +10,7 @@ class Patient extends BaseLogic implements UserLogic
 {
     public $alias = "病人";
     protected $fields = array("id" => "编号", "name" => "名字", "sex" => "性别", "phone" => "电话号码", "address" => "地址");
-    protected $textFields = array("name" => "名字", "phone" => "电话号码", "address" => "地址");
+    protected $textFields = array("id" => "编号", "name" => "名字", "phone" => "电话号码", "address" => "地址");
     protected $optFields = array("sex" => "性别");
 
     public function prepareRows()

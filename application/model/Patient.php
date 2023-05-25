@@ -16,5 +16,10 @@ class Patient extends Model
     {
         return $this->hasMany('inpatient_file','pId','id');
     }
+
+    public function setPasswdAttr($value)
+    {
+        return md5($value);
+    }
     
 }
