@@ -6,7 +6,7 @@ use think\Validate;
 class InpatientFile extends Validate
 {
     protected $rule = [ 
-        'drId' => 'require|number|length:11',
+        'drId' => 'require|number',
         'rId' => 'require|number',
         'bId' => 'require|number'
     ];

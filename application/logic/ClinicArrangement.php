@@ -31,8 +31,7 @@ class ClinicArrangement extends BaseLogic
                 INNER JOIN clinic_room r
                 INNER JOIN doctor dr
                 ON (a.rId = r.id AND a.drId = dr.id)
-                WHERE a.drId = $account
-                LIMIT 1");  
+                WHERE a.drId = $account");  
         }
         return $rows;
     }

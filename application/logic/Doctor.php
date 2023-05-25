@@ -27,13 +27,14 @@ class Doctor extends BaseLogic implements UserLogic
     {
         $clinic = model("clinic_department")->all();
         $inpatient = model("inpatient_department")->all();
+        $title = model("doctor_title")->all()->toArray();
         $opts = array(
                 "c_deptId" => $clinic,
                 "i_deptId" => $inpatient,
                 "sex" => [array('id' => '男', 'name' => '男'), array('id' => '女', 'name' => '女')],
-                "title" => [array('id' => '初级', 'name' => '初级'),
-                        array('id' => '中级', 'name' => '中级'),
-                        array('id' => '高级', 'name' => '高级')]
+                "title" => array_map(function ($row) {
+                    return array('id' => $row['name'], 'name' => $row['name']);
+                },$title)
             );
         return $opts;
     }

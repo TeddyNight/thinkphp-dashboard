@@ -8,7 +8,7 @@ class InpatientArrangement extends Validate
     protected $rule = [
         'start_time' => 'require|date',
         'end_time' => 'require|date',
-        'drId' => 'require|number|length:11',
+        'drId' => 'require|number',
     ];
 }
 ?>

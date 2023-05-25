@@ -30,4 +30,9 @@ class Doctor extends Model
         return $this->hasMany('inpatient_file','drId','id');
     }
 
+    public function DoctorTitle()
+    {
+        return $this->hasOne('doctor_title','title','name');
+    }
+
 }
