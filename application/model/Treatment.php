@@ -6,5 +6,5 @@ use app\common\BaseModel;
 
 class Treatment extends Model
 {
-    protected $autoWriteTimestamp = true;
+    protected $autoWriteTimestamp = 'timestamp';
 }

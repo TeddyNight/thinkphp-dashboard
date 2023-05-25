@@ -12,6 +12,7 @@
                                     {foreach $fields as $field} 
                                     <th>{$field}</th>
                                     {/foreach}
+                                    <th>支付状态</th>
                                     <th>操作</th>
                                 </tr>
                                 {foreach $rows as $row}
@@ -19,6 +20,13 @@
                                 <?php foreach(array_keys($fields) as $key) { ?>
                                 <td>{$row["$key"]}</td>
                                 <?php } ?>
+                                <td>
+                                {if $row["payId"] eq null}
+                                <span class="label label-danger">未支付</span>
+                                {else}
+                                <span class="label label-success">已支付</span>
+                                {/if}
+                                </td>
                                 <td>
                                     <a class="btn btn-info btn-sm" href='{:url("dashboard/detail","type=$type&id=" . $row["id"])}'>查看详情</a>
                                 </td>

@@ -9,8 +9,8 @@ use think\Db;
 class InpatientRoom extends BaseLogic
 {
     public $alias = "住院部病房";
-    protected $fields = array("id" => "房间号", "department" => "所属住院部科室");
-    protected $textFields = array("id" => "房间号");
+    protected $fields = array("id" => "房间号", "price" => "床位费", "department" => "所属住院部科室");
+    protected $textFields = array("id" => "房间号", "price" => "床位费");
     protected $optFields = array("deptId" => "所属住院部科室");
 
     public function prepareRows()

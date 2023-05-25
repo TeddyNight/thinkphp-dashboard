@@ -2,9 +2,9 @@
 namespace app\model;
 
 use think\Model;
-use app\common\BaseModel;
 
-class Prescription extends Model
+class Payment extends Model
 {
     protected $autoWriteTimestamp = 'timestamp';
+
 }

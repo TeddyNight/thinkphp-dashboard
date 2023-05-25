@@ -54,12 +54,14 @@
                                 <tbody><tr>
                                 <th>药品名称</th>
                                 <th>数量</th>
+                                <th>价格</th>
                                 <th>用法</th>
                                 </tr>
                                 {foreach $medicines as $medicine}
                                 <tr>
                                 <td>{$medicine["name"]}</td>
                                 <td>{$medicine["num"]}</td>
+                                <td>{$medicine["price"]}元</td>
                                 <td>{$medicine["usage"]}</td>
                                 </tr>
                                 {/foreach}
@@ -71,6 +73,16 @@
                         </div><!-- /.box-body -->
 
                     </form>
+                    <div class="box-footer">
+                        <p class="margin">共计<b>{$total}</b>元，其中诊疗费<b>{$doctorPrice}</b>元，药品合计<b>{$medicineTotal}</b>元</p>
+                        {if $data["payId"] == null}
+                        <a href='{:url("pay/index","type=$type&id=" . $data["id"])}'>
+                        <button type="button" class="btn btn-block btn-danger btn-sm">去支付</button>
+                        </a>
+                        {else /}
+                        <button type="button" class="btn btn-block btn-success disabled">已支付</button>
+                        {/if}
+                    </div>
                     {/block}
                 </div>
             </div><!-- /.box -->

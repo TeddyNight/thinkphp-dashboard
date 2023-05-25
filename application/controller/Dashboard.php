@@ -24,7 +24,7 @@ class Dashboard extends BaseController
 
         $permission = ["doctor" => ["list" => ["clinic_arrangement","wait_patient","medicine","prescription","treatment","inpatient_arrangement"], "update" => [], "create" => ["prescription","treatment"], "delete" => [], "detail" => ["prescription","treatment"]],
                 "admin" => ["list" => ["all"], "create" => ["all"], "update" => ["all"], "delete" => ["all"], "detail" => ["all"]],
-                "patient" => ["list" => ["registration","prescription","inpatient_file","treatment"], "create" => ["registration","inpatient_file"], "update" => [], "delete" => [], "detail" => ["prescription"]]
+                "patient" => ["list" => ["registration","prescription","inpatient_file","treatment"], "create" => ["registration","inpatient_file"], "update" => [], "delete" => [], "detail" => ["prescription","treatment"]]
             ];
         $type = Request::param('type');
         $role = Auth::getRole();

@@ -8,7 +8,7 @@ use think\Db;
 
 class ClinicRoom extends BaseLogic
 {
-    public $alias = "住院部病房";
+    public $alias = "门诊部诊室";
     protected $fields = array("id" => "房间号");
     protected $textFields = array("id" => "房间号");
     protected $optFields = array();
