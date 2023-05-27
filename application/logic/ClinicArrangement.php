@@ -6,7 +6,7 @@ use app\common\BaseLogic;
 use app\common\Auth;
 use think\Db;
 
-class ClinicArrangement extends BaseLogic
+class ClinicArrangement extends Arrangement
 {
     public $alias = "坐诊安排";
     protected $fields = array("id" => "编号", "room" => "诊室", "doctor" => "医生", "start_time" => "开始时间", "end_time" => "结束时间");
