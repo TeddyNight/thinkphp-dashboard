@@ -62,16 +62,18 @@ class Prescription extends BaseLogic implements PayableLogic
     }
 
     public function doCreate() {
-        $this->allowField(true)->save($_POST);
-        $pId = $this->id;
-        $medicine = array_count_values($_POST["medicine"]);
-        $mList = [];
-        foreach ($medicine as $mId => $num) {
-            $tmp = array('pId' => $pId, 'mId' => $mId, 'num' => $num);
-            array_push($mList,$tmp);
-        }
-        $m = model("ClinicMedicine");
-        $m->saveAll($mList);
+        Db::transaction(function () {
+            $this->allowField(true)->save($_POST);
+            $pId = $this->id;
+            $medicine = array_count_values($_POST["medicine"]);
+            $mList = [];
+            foreach ($medicine as $mId => $num) {
+                $tmp = array('pId' => $pId, 'mId' => $mId, 'num' => $num);
+                array_push($mList,$tmp);
+            }
+            $m = model("ClinicMedicine");
+            $m->saveAll($mList);
+        });
     }
 
     public function doUpdate() {
@@ -130,7 +132,13 @@ class Prescription extends BaseLogic implements PayableLogic
     }
 
     public function loadList() {
-        View::share('title','就诊记录—处方');
+        $role = Auth::getRole();
+        if ($role == "patient") {
+            View::share('title','就诊记录—处方');
+        }
+        else {
+            View::share('title','处方');
+        }
         $this->loadFields();
         $this->loadRows();
     }

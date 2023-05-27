@@ -70,16 +70,18 @@ class Treatment extends BaseLogic implements PayableLogic
     }
 
     public function doCreate() {
-        $this->allowField(true)->save($_POST);
-        $tId = $this->id;
-        $medicine = array_count_values($_POST["medicine"]);
-        $mList = [];
-        foreach ($medicine as $mId => $num) {
-            $tmp = array('tId' => $tId, 'mId' => $mId, 'num' => $num);
-            array_push($mList,$tmp);
-        }
-        $m = model("InpatientMedicine");
-        $m->saveAll($mList);
+        Db::transaction(function () {
+            $this->allowField(true)->save($_POST);
+            $tId = $this->id;
+            $medicine = array_count_values($_POST["medicine"]);
+            $mList = [];
+            foreach ($medicine as $mId => $num) {
+                $tmp = array('tId' => $tId, 'mId' => $mId, 'num' => $num);
+                array_push($mList,$tmp);
+            }
+            $m = model("InpatientMedicine");
+            $m->saveAll($mList);
+        });
     }
 
     public function doUpdate() {
