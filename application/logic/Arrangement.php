@@ -10,19 +10,22 @@ use think\facade\Request;
 abstract class Arrangement extends BaseLogic
 {
     protected function is_time_collision($arr,$start,$end) {
-        $astart = $arr['start_time'];
-        $aend = $arr['end_time'];
-        if (($astart < $start) && ($aend < $start)) {
-            return true;
+        $astart = strtotime($arr['start_time']);
+        $aend = strtotime($arr['end_time']);
+        if ($end < $astart) {
+            return false;
         }
-        else if ($astart > $end) {
-            return true;
+        else if ($start > $aend) {
+            return false;
         }
-        return false;
+        return true;
     }
 
-    protected function is_exists_arr($start, $end)
+    protected function is_vaild_time($start, $end)
     {
+        if (!($start < $end)) {
+            throw new \think\Exception('开始时间或结束时间有误',100006);
+        }
         $clinic = model("clinic_arrangement")->all();
         foreach ($clinic as $arr) {
             if ($this->is_time_collision($arr,$start,$end)) {
@@ -40,12 +43,16 @@ abstract class Arrangement extends BaseLogic
     }
 
     public function doCreate() {
-        $this->is_exists_arr(Request::post('start_time'),Request::post('end_time'));
+        $start = strtotime(Request::post('start_time'));
+        $end = strtotime(Request::post('end_time'));
+        $this->is_vaild_time($start,$end);
         $this->allowField(true)->save($_POST);
     }
 
     public function doUpdate() {
-        $this->is_exists_arr(Request::post('start_time'),Request::post('end_time'));
+        $start = strtotime(Request::post('start_time'));
+        $end = strtotime(Request::post('end_time'));
+        $this->is_vaild_time($start,$end);
         $this->allowField(true)->isUpdate(true)->save($_POST);
     }
 }
